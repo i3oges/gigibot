@@ -12,12 +12,11 @@ const commandFiles = readdirSync('./src/commands').filter(file => file.endsWith(
 
 for (const file of commandFiles) {
   const { command } = require(`../commands/${file}`);
-  commands.set(command.name, command);
+  commands.set(command.data.name, command);
 }
 
 const event = {
-  name: __filename.slice(__dirname.length + 1, -3),
-  once: false,
+  name: 'interactionCreate',
   async execute(interaction: CommandInteraction) {
     if (!interaction.isCommand()) {
       return;
@@ -29,6 +28,7 @@ const event = {
 
     try {
       await command.execute(interaction);
+      console.log('sent', interaction.commandName, 'at', new Date().toString(), 'to', interaction.member?.user.username);
     } catch (error) {
       console.error(error);
       await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });

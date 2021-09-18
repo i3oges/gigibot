@@ -1,5 +1,4 @@
-import { Client, Guild, MessageEmbed, TextChannel } from 'discord.js';
-import { getFashionReportRedditThread } from './reddit';
+import { Client, Guild, TextChannel } from 'discord.js';
 
 function findTextChannel(guild: Guild, name: string): TextChannel | undefined {
   return guild.channels.cache.find(channel => channel instanceof TextChannel && channel.name === name) as TextChannel;
@@ -23,9 +22,19 @@ export function gigiSpeak(input: string): string {
     .join('');
 }
 
-export async function getFashionReportEmbed() {
-  const thread = await getFashionReportRedditThread();
-  const { data } = thread;
-  const { title, url: image, permalink } = data;
-  return new MessageEmbed().setTitle(gigiSpeak(title)).setImage(image).setURL(`https://reddit.com${permalink}`);
+function getClosestLastFriday(): Date {
+  const oneDay = 86400;
+  let date = new Date();
+  while (date.getDay() !== 5) {
+    date = new Date(date.getTime() - oneDay);
+  }
+  return date;
+}
+
+export function getSearchString(): string {
+  const oneWeek = 1000 * 60 * 60 * 24 * 7;
+  const startDate = new Date('1/26/2018').getTime();
+  const friday = getClosestLastFriday();
+  const weekNumber = Math.floor(Math.abs(friday.getTime() - startDate) / oneWeek);
+  return `Fashion Report - Full Details - For Week of ${friday.getMonth() + 1}/${friday.getDate()}/${friday.getFullYear()} (Week ${weekNumber})`;
 }

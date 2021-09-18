@@ -1,14 +1,8 @@
 import request from 'axios';
 
-export async function getFashionReportRedditThread(): Promise<RedditPost> {
-  const oneWeek = 1000 * 60 * 60 * 24 * 7;
+export async function getFashionReportRedditThread(search: string): Promise<RedditPost> {
   const postsByKaiyoko = await request('https://api.reddit.com/user/kaiyoko/submitted/new');
-  const startDate = new Date('1/26/2018').getTime();
-  const today = new Date();
-  const weekNumber = Math.floor(Math.abs(new Date().getTime() - startDate) / oneWeek);
-  const search = `Fashion Report - Full Details - For Week of ${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()} (Week ${weekNumber})`;
-  const fashionReportThread = postsByKaiyoko.data.data.children.find((el: any) => el.data.title === search);
-  return fashionReportThread;
+  return postsByKaiyoko.data.data.children.find((el: any) => el.data.title === search);
 }
 
 interface RedditPost {
