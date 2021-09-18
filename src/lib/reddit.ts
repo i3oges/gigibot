@@ -1,21 +1,22 @@
 import request from 'axios';
 
-export async function getFashionReportRedditThread(): Promise<Post> {
-  const kaiyoko = await request('https://api.reddit.com/user/kaiyoko/submitted/new');
+export async function getFashionReportRedditThread(): Promise<RedditPost> {
+  const oneWeek = 1000 * 60 * 60 * 24 * 7;
+  const postsByKaiyoko = await request('https://api.reddit.com/user/kaiyoko/submitted/new');
   const startDate = new Date('1/26/2018').getTime();
   const today = new Date();
-  const weekNumber = Math.floor(Math.abs(new Date().getTime() - startDate) / (1000 * 60 * 60 * 24 * 7));
+  const weekNumber = Math.floor(Math.abs(new Date().getTime() - startDate) / oneWeek);
   const search = `Fashion Report - Full Details - For Week of ${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()} (Week ${weekNumber})`;
-  const fashionReportThread = kaiyoko.data.data.children.find((el: any) => el.data.title === search);
+  const fashionReportThread = postsByKaiyoko.data.data.children.find((el: any) => el.data.title === search);
   return fashionReportThread;
 }
 
-export interface Post {
+interface RedditPost {
   kind: string;
   data: Data;
 }
 
-export interface Data {
+interface Data {
   approved_at_utc: null;
   subreddit: string;
   selftext: string;
@@ -128,7 +129,7 @@ export interface Data {
   is_video: boolean;
 }
 
-export interface AllAwarding {
+interface AllAwarding {
   giver_coin_reward: number | null;
   subreddit_id: null;
   is_new: boolean;
@@ -161,36 +162,36 @@ export interface AllAwarding {
   static_icon_url: string;
 }
 
-export interface ResizedIcon {
+interface ResizedIcon {
   url: string;
   width: number;
   height: number;
 }
 
-export interface AuthorFlairRichtext {
+interface AuthorFlairRichtext {
   a: string;
   e: string;
   u: string;
 }
 
-export interface Gildings {
+interface Gildings {
   gid_1: number;
   gid_2: number;
 }
 
-export interface LinkFlairRichtext {
+interface LinkFlairRichtext {
   e: string;
   t: string;
 }
 
-export interface MediaEmbed {}
+interface MediaEmbed {}
 
-export interface Preview {
+interface Preview {
   images: Image[];
   enabled: boolean;
 }
 
-export interface Image {
+interface Image {
   source: ResizedIcon;
   resolutions: ResizedIcon[];
   variants: MediaEmbed;

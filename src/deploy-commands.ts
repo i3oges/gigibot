@@ -1,15 +1,23 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import { environment } from './env';
+import { readdirSync } from 'fs';
+import { config } from 'dotenv';
 
-const commands = [new SlashCommandBuilder().setName('fashionreport').setDescription('Retrieves Fashion Report for this week')].map(command => command.toJSON());
+config();
 
-const rest = new REST({ version: '9' }).setToken(environment.botToken);
+const commands = [];
+const commandFiles = readdirSync('./commands').filter(file => file.endsWith('.ts'));
+
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  commands.push(command.data.toJSON());
+}
+
+const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN);
 
 (async () => {
   try {
-    await rest.put(Routes.applicationCommands(environment.clientID), {
+    await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
       body: commands,
     });
 

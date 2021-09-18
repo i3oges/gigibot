@@ -1,9 +1,13 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction } from 'discord.js';
+import { getFashionReportEmbed } from '../lib/utils';
 
-export default {
-  data: new SlashCommandBuilder().setName('ping').setDescription('Replies with Pong!'),
+const command = {
+  name: 'fashionreport',
+  data: new SlashCommandBuilder().setName('fashionreport').setDescription('Retrieves Fashion Report for this week'),
   async execute(interaction: CommandInteraction) {
-    await interaction.reply('Pong!');
+    const embeds = [await getFashionReportEmbed()];
+    await interaction.reply({ embeds });
   },
 };
+export { command };

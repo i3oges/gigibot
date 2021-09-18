@@ -1,33 +1,22 @@
-import { Collection } from '@discordjs/collection';
-import { CronJob } from 'cron';
 import { Client, Intents } from 'discord.js';
-import { environment } from './env';
-import { findTextChannel, getFashionReportEmbed } from './utils';
+import { config } from 'dotenv';
+import { readdirSync } from 'fs';
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-const everyFridayAtNoon = '0 15 * * FRI';
-const commands = new Collection();
+config();
 
-client.once('ready', async () => {
-  console.log('ready');
-  new CronJob(everyFridayAtNoon, async () => {
-    const fashionEmbed = await getFashionReportEmbed();
-    await findTextChannel(client, 'fashion-report')?.send({ embeds: [fashionEmbed] });
-    console.log('sent fashion report at', new Date().toString());
-  }).start();
-});
+var client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
-client.on('interactionCreate', async interaction => {
-  if (!interaction.isCommand()) {
-    return;
+// event handler
+const eventFiles = readdirSync('./src/events').filter(file => file.endsWith('.ts'));
+
+for (const file of eventFiles) {
+  const { event } = require(`./events/${file}`);
+
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args));
   }
+}
 
-  const { commandName } = interaction;
-
-  if (commandName === 'fashionreport') {
-    const fashionEmbed = await getFashionReportEmbed();
-    await interaction.reply({ embeds: [fashionEmbed] });
-  }
-});
-
-client.login(environment.botToken);
+client.login(process.env.BOT_TOKEN);
