@@ -1,4 +1,5 @@
 import { Client, Guild, TextChannel } from 'discord.js';
+import dayjs from 'dayjs';
 
 function findTextChannel(guild: Guild, name: string): TextChannel | undefined {
   return guild.channels.cache.find(channel => channel instanceof TextChannel && channel.name === name) as TextChannel;
@@ -29,6 +30,29 @@ function getClosestLastFriday(): Date {
     date = new Date(date.getTime() - oneDay);
   }
   return date;
+}
+
+function getClosestNextTuesday(): dayjs.Dayjs {
+  const oneDay = 86400;
+  let date = new Date();
+  while (date.getDay() !== 2) {
+    date = new Date(date.getTime() + oneDay);
+  }
+  return dayjs(date).hour(4);
+}
+
+export function getFashionFridayResetTime(): string {
+  let seconds = getClosestNextTuesday().diff(new Date(), 'seconds');
+  const d = Math.floor(seconds / (3600 * 24));
+  const h = Math.floor((seconds % (3600 * 24)) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+
+  const dDisplay = d > 0 ? d + (d == 1 ? ' day, ' : ' days, ') : '';
+  const hDisplay = h > 0 ? h + (h == 1 ? ' hour, ' : ' hours, ') : '';
+  const mDisplay = m > 0 ? m + (m == 1 ? ' minute, ' : ' minutes, ') : '';
+  const sDisplay = s > 0 ? s + (s == 1 ? ' second' : ' seconds') : '';
+  return dDisplay + hDisplay + mDisplay + sDisplay;
 }
 
 export function getSearchString(): string {
