@@ -4,7 +4,7 @@ import { readdirSync } from 'fs';
 
 config();
 
-var client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+var client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.DIRECT_MESSAGE_REACTIONS] });
 
 const eventFiles = readdirSync('./src/events').filter(file => file.endsWith('.ts'));
 
