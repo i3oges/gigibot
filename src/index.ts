@@ -1,12 +1,16 @@
 import { Client, Intents } from 'discord.js';
 import { config } from 'dotenv';
 import { readdirSync } from 'fs';
+import { checkRecruitmentPage } from './lib/checkRecruitmentPage';
 
 config();
 
 var client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.DIRECT_MESSAGE_REACTIONS] });
 
-const eventFiles = readdirSync('./src/events').filter(file => file.endsWith('.ts'));
+const includedEvents = ['ready', 'guildmemberadd', 'interactioncreate'];
+const includedRegexp = new RegExp(includedEvents.join('|'), 'i');
+const eventFiles = readdirSync('./src/events').filter(file => includedRegexp.test(file));
+console.log(`Loading events ${eventFiles.join(', ')}`);
 
 for (const file of eventFiles) {
   const { event } = require(`./events/${file}`);

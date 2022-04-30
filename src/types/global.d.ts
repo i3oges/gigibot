@@ -3,5 +3,7 @@ declare namespace NodeJS {
     BOT_TOKEN: string;
     CLIENT_ID: string;
     GUILD_ID: string;
+    WELCOME_MEMBERS: string;
+    COMMUNITY_FINDER_PAGE_ID: string;
   }
 }

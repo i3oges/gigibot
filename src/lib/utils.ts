@@ -1,7 +1,7 @@
 import { Client, Guild, TextChannel } from 'discord.js';
 import dayjs from 'dayjs';
 
-function findTextChannel(guild: Guild, name: string): TextChannel | undefined {
+export function findTextChannel(guild: Guild, name: string): TextChannel | undefined {
   return guild.channels.cache.find(channel => channel instanceof TextChannel && channel.name === name) as TextChannel;
 }
 

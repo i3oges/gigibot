@@ -29,8 +29,10 @@
   "dependencies": {
     "@discordjs/builders": "^0.5.0",
     "@discordjs/rest": "^0.1.0-canary.0",
+    "@types/puppeteer": "^5.4.4",
     "dayjs": "^1.10.7",
     "discord-api-types": "^0.22.0",
+    "puppeteer": "^13.0.1",
     "sequelize": "^6.6.5",
     "sqlite3": "^4.2.0"
   }

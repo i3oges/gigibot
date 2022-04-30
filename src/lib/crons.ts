@@ -1,9 +1,11 @@
 import { CronJob } from 'cron';
 import { Client, MessageEmbed } from 'discord.js';
+import { checkRecruitmentPage } from './checkRecruitmentPage';
 import { getFashionReportRedditThread } from './reddit';
-import { getSearchString, gigiSpeak, findAllTextChannels, getFashionFridayResetTime } from './utils';
+import { findAllTextChannels, getFashionFridayResetTime, getSearchString, gigiSpeak } from './utils';
 
 const everyFridayAtNoonEST = '0 17 * * FRI';
+const everyDayAtNoonEST = '* * * * *';
 export const fashionFridayCron = (client: Client) =>
   new CronJob(everyFridayAtNoonEST, async () => {
     const searchString = getSearchString();
@@ -29,4 +31,9 @@ export const fashionFridayCron = (client: Client) =>
       console.log('sent fashion report at', new Date().toString(), 'to', channel.name);
     }
     console.log('sent fashion report at', new Date().toString(), 'to', channels.length, 'channels');
+  });
+
+export const recruitmentPageCron = (client: Client) =>
+  new CronJob(everyDayAtNoonEST, async () => {
+    checkRecruitmentPage(client);
   });

@@ -6,6 +6,7 @@ const event = {
   execute(client: Client) {
     console.log(`I am ready! Logged in as ${client.user?.tag}!`);
     console.log(`Bot has started, with ${client.users.cache.size} users, in ${client.channels.cache.size} channels of ${client.guilds.cache.size} guilds.`);
+    console.log(client.guilds.cache.map(g => g.name));
     fashionFridayCron(client).start();
   },
 };
