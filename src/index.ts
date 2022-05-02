@@ -1,7 +1,6 @@
 import { Client, Intents } from 'discord.js';
 import { config } from 'dotenv';
 import { readdirSync } from 'fs';
-import { checkRecruitmentPage } from './lib/checkRecruitmentPage';
 
 config();
 
