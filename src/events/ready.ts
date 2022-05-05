@@ -9,7 +9,8 @@ const event = {
     console.log(`Joined guilds: ${client.guilds.cache.map(g => g.name)}`);
     fashionFridayCron(client).start();
     affirmationCron(client).start();
-    recruitmentPageCron(client).start();
+    // TODO: chrome process unable to run in RPI
+    // recruitmentPageCron(client).start();
   },
 };
 
