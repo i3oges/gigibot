@@ -23,7 +23,11 @@ sequelize.sync();
 export async function checkRecruitmentPage(client: Client) {
   await sequelize.authenticate();
   const recruitmentPage = `https://na.finalfantasyxiv.com/lodestone/community_finder/${process.env.COMMUNITY_FINDER_PAGE_ID}/`;
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: true,
+    executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium-browser',
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   const page = await browser.newPage();
   await page.goto(recruitmentPage);
   const comments = await page.$$('.cf-comment__window .cf-comment__wrapper');

@@ -5,5 +5,6 @@ declare namespace NodeJS {
     GUILD_ID: string;
     WELCOME_MEMBERS: string;
     COMMUNITY_FINDER_PAGE_ID: string;
+    CHROMIUM_PATH: string;
   }
 }
