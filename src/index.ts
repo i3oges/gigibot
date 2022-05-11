@@ -4,9 +4,11 @@ import { readdirSync } from 'fs';
 
 config();
 
-var client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.DIRECT_MESSAGE_REACTIONS] });
+var client = new Client({
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.DIRECT_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_MESSAGES],
+});
 
-const includedEvents = ['ready', 'guildmemberadd', 'interactioncreate'];
+const includedEvents = ['ready', 'guildmemberadd', 'interactioncreate', 'messageCreate'];
 const includedRegexp = new RegExp(includedEvents.join('|'), 'i');
 const eventFiles = readdirSync('./src/events').filter(file => includedRegexp.test(file));
 console.log(`Loading events ${eventFiles.join(', ')}`);

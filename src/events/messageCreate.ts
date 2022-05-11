@@ -1,4 +1,9 @@
 import { Message } from 'discord.js';
+import { addLewd } from '../lib/lewd';
 
-const event = { execute: (message: Message) => console.log('messageCreate', message) };
+const event = {
+  execute: async (message: Message) => {
+    await addLewd();
+  },
+};
 export { event };
