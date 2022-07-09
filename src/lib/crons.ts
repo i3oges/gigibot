@@ -2,11 +2,13 @@ import { CronJob } from 'cron';
 import { Client, MessageEmbed } from 'discord.js';
 import { postAffirmation } from './affirmation';
 import { checkRecruitmentPage } from './checkRecruitmentPage';
+import { postInspiration } from './inspiration';
 import { getFashionReportRedditThread } from './reddit';
 import { findAllTextChannels, getFashionFridayResetTime, getSearchString, gigiSpeak } from './utils';
 
 const everyFridayAtNoonEST = '0 17 * * FRI';
 const everyDayAtNoonEST = '0 17 * * *';
+const everyDayAtEightESTAndEightPMEST = '0 8,20 * * *';
 export const fashionFridayCron = (client: Client) =>
   new CronJob(everyFridayAtNoonEST, async () => {
     const searchString = getSearchString();
@@ -42,4 +44,10 @@ export const recruitmentPageCron = (client: Client) =>
 export const affirmationCron = (client: Client) =>
   new CronJob(everyDayAtNoonEST, async () => {
     postAffirmation(client);
+  });
+
+// post a picture from inspirobot every day at 8:00 EST
+export const inspirationCron = (client: Client) =>
+  new CronJob(everyDayAtEightESTAndEightPMEST, async () => {
+    postInspiration(client);
   });
