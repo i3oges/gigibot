@@ -1,5 +1,5 @@
 import { Client } from 'discord.js';
-import { affirmationCron, fashionFridayCron, inspirationCron, recruitmentPageCron } from '../lib/crons';
+import { affirmationCron, dadJokeCron, fashionFridayCron, inspirationCron, recruitmentPageCron } from '../lib/crons';
 
 const event = {
   once: true,
@@ -11,7 +11,8 @@ const event = {
     affirmationCron(client).start();
     recruitmentPageCron(client).start();
     inspirationCron(client).start();
-    console.log('started crons: fashionFriday, affirmation, recruitmentPage, inspiration');
+    dadJokeCron(client).start();
+    console.log('started crons: fashionFriday, affirmation, recruitmentPage, inspiration, dadjoke');
   },
 };
 

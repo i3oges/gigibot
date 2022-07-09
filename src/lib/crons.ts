@@ -2,6 +2,7 @@ import { CronJob } from 'cron';
 import { Client, MessageEmbed } from 'discord.js';
 import { postAffirmation } from './affirmation';
 import { checkRecruitmentPage } from './checkRecruitmentPage';
+import { postDadJoke } from './dadjoke';
 import { postInspiration } from './inspiration';
 import { getFashionReportRedditThread } from './reddit';
 import { findAllTextChannels, getFashionFridayResetTime, getSearchString, gigiSpeak } from './utils';
@@ -9,6 +10,7 @@ import { findAllTextChannels, getFashionFridayResetTime, getSearchString, gigiSp
 const everyFridayAtNoonEST = '0 17 * * FRI';
 const everyDayAtNoonEST = '0 17 * * *';
 const everyDayAtEightESTAndEightPMEST = '0 8,20 * * *';
+const everyDayAtThreePMEST = '0 15 * * *';
 export const fashionFridayCron = (client: Client) =>
   new CronJob(everyFridayAtNoonEST, async () => {
     const searchString = getSearchString();
@@ -50,4 +52,9 @@ export const affirmationCron = (client: Client) =>
 export const inspirationCron = (client: Client) =>
   new CronJob(everyDayAtEightESTAndEightPMEST, async () => {
     postInspiration(client);
+  });
+
+export const dadJokeCron = (client: Client) =>
+  new CronJob(everyDayAtThreePMEST, async () => {
+    postDadJoke(client);
   });
