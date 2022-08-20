@@ -1,5 +1,7 @@
+import request from 'axios';
+
 export async function getFashionReportRedditThread(search: string): Promise<RedditPost> {
-  const postsByKaiyoko = await fetch('https://api.reddit.com/user/kaiyoko/submitted/new').then(res => res.json());
+  const postsByKaiyoko = await request('https://api.reddit.com/user/kaiyoko/submitted/new');
   return postsByKaiyoko.data.data.children.find((el: any) => el.data.title === search);
 }
 
