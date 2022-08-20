@@ -1,5 +1,5 @@
 import { Client } from 'discord.js';
-import { affirmationCron, dadJokeCron, fashionFridayCron, inspirationCron, recruitmentPageCron } from '../lib/crons';
+import { dadJokeCron, fashionFridayCron } from '../lib/crons';
 
 const event = {
   once: true,
@@ -8,11 +8,8 @@ const event = {
     console.log(`Bot has started, with ${client.users.cache.size} users, in ${client.channels.cache.size} channels of ${client.guilds.cache.size} guilds.`);
     console.log(`Joined guilds: ${client.guilds.cache.map(g => g.name)}`);
     fashionFridayCron(client).start();
-    affirmationCron(client).start();
-    recruitmentPageCron(client).start();
-    inspirationCron(client).start();
     dadJokeCron(client).start();
-    console.log('started crons: fashionFriday, affirmation, recruitmentPage, inspiration, dadjoke');
+    console.log('started crons: fashionFriday, dadjoke');
   },
 };
 

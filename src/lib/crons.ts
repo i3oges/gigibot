@@ -10,7 +10,7 @@ import { findAllTextChannels, getFashionFridayResetTime, getSearchString, gigiSp
 const everyFridayAtNoonEST = '0 17 * * FRI';
 const everyDayAtNoonEST = '0 17 * * *';
 const everyDayAtEightESTAndEightPMEST = '0 1,13 * * *';
-const everyDayAtThreePMEST = '0 20 * * *';
+const everyWednesdayAtThreePMEST = '0 20 * * WED';
 export const fashionFridayCron = (client: Client) =>
   new CronJob(everyFridayAtNoonEST, async () => {
     const searchString = getSearchString();
@@ -55,6 +55,6 @@ export const inspirationCron = (client: Client) =>
   });
 
 export const dadJokeCron = (client: Client) =>
-  new CronJob(everyDayAtThreePMEST, async () => {
+  new CronJob(everyWednesdayAtThreePMEST, async () => {
     postDadJoke(client);
   });

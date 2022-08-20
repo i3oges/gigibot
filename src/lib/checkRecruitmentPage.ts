@@ -25,7 +25,7 @@ export async function checkRecruitmentPage(client: Client) {
   const recruitmentPage = `https://na.finalfantasyxiv.com/lodestone/community_finder/${process.env.COMMUNITY_FINDER_PAGE_ID}/`;
   const browser = await puppeteer.launch({
     headless: true,
-    executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium-browser',
+    executablePath: process.platform === 'win32' ? undefined : '/usr/bin/chromium-browser',
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
   const page = await browser.newPage();
