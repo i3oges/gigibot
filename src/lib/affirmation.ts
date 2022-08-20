@@ -1,10 +1,9 @@
 import { Client, TextChannel } from 'discord.js';
 import { findAllTextChannels, gigiSpeak } from './utils';
+import request from 'axios';
 
 export async function postAffirmation(client: Client) {
-  const affirmation = await fetch('https://affirmations.dev')
-    .then(res => res.json())
-    .then(json => json.data.affirmation);
+  const affirmation = await request('https://affirmations.dev').then(json => json.data.affirmation);
 
   const channels = findAllTextChannels(client, 'general');
   for (const channel of channels) {
