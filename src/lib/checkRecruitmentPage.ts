@@ -2,9 +2,9 @@ import { Client, MessageEmbed, TextChannel } from 'discord.js';
 import puppeteer from 'puppeteer';
 import { Sequelize, STRING } from 'sequelize';
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './bot-data.sqlite',
+const sequelize = new Sequelize('s74047_gigibase', process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
+  dialect: 'mysql',
 });
 
 sequelize.define('recruitments', {

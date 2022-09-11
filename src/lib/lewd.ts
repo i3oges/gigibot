@@ -1,16 +1,16 @@
-import { Sequelize, NUMBER } from 'sequelize';
+import { Sequelize, INTEGER } from 'sequelize';
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './bot-data.sqlite',
+const sequelize = new Sequelize('s74047_gigibase', process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
+  dialect: 'mysql',
 });
 
 sequelize.define('lewdCounter', {
   count: {
-    type: NUMBER,
+    type: INTEGER,
   },
   id: {
-    type: NUMBER,
+    type: INTEGER,
     primaryKey: true,
   },
 });

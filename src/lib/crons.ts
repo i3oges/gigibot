@@ -5,6 +5,7 @@ import { checkRecruitmentPage } from './checkRecruitmentPage';
 import { postDadJoke } from './dadjoke';
 import { postInspiration } from './inspiration';
 import { getFashionReportRedditThread } from './reddit';
+import { postSv443Joke } from './sv443Joke';
 import { findAllTextChannels, getFashionFridayResetTime, getSearchString, gigiSpeak } from './utils';
 
 const everyFridayAtNoonEST = '0 17 * * FRI';
@@ -38,23 +39,17 @@ export const fashionFridayCron = (client: Client) =>
     console.log('sent fashion report at', new Date().toString(), 'to', channels.length, 'channels');
   });
 
-export const recruitmentPageCron = (client: Client) =>
-  new CronJob(everyDayAtNoonEST, async () => {
-    checkRecruitmentPage(client);
-  });
+export const recruitmentPageCron = (client: Client) => new CronJob(everyDayAtNoonEST, async () => checkRecruitmentPage(client));
 
-export const affirmationCron = (client: Client) =>
-  new CronJob(everyDayAtNoonEST, async () => {
-    postAffirmation(client);
-  });
+export const affirmationCron = (client: Client) => new CronJob(everyDayAtNoonEST, async () => postAffirmation(client));
 
 // post a picture from inspirobot every day at 8:00 EST
-export const inspirationCron = (client: Client) =>
-  new CronJob(everyDayAtEightESTAndEightPMEST, async () => {
-    postInspiration(client);
-  });
+export const inspirationCron = (client: Client) => new CronJob(everyDayAtEightESTAndEightPMEST, async () => postInspiration(client));
 
 export const dadJokeCron = (client: Client) =>
   new CronJob(everyWednesdayAtThreePMEST, async () => {
-    postDadJoke(client);
+    // pick from 2 functions to run randomly
+    const functions = [postDadJoke, postSv443Joke];
+    const randomFunction = functions[Math.floor(Math.random() * functions.length)];
+    randomFunction(client);
   });
